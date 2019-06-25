@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DataAnotations_PartialViews.Models.modelo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.modelo1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.asientos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.combustible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.year_modelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.marca.marca1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.modelo1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.asientos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.combustible)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.precio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.year_modelo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.marca.marca1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_modelos }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_modelos }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_modelos })
+        </td>
+    </tr>
+}
+
+</table>

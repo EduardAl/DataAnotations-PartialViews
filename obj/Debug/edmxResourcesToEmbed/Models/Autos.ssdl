@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="autosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="marca">
+    <Key>
+      <PropertyRef Name="id_marca" />
+    </Key>
+    <Property Name="id_marca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="marca" Type="varchar" MaxLength="15" />
+    <Property Name="pais" Type="varchar" MaxLength="15" />
+    <Property Name="imagen" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="modelos">
+    <Key>
+      <PropertyRef Name="id_modelos" />
+    </Key>
+    <Property Name="id_modelos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelo" Type="varchar" MaxLength="15" />
+    <Property Name="asientos" Type="int" />
+    <Property Name="combustible" Type="varchar" MaxLength="10" />
+    <Property Name="precio" Type="smallmoney" />
+    <Property Name="year_modelo" Type="varchar" MaxLength="4" />
+    <Property Name="id_marca" Type="int" />
+  </EntityType>
+  <EntityType Name="repuestos">
+    <Key>
+      <PropertyRef Name="id_rep" />
+    </Key>
+    <Property Name="id_rep" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="40" />
+    <Property Name="precio" Type="smallmoney" />
+    <Property Name="descuento" Type="int" />
+    <Property Name="id_modelos" Type="int" />
+  </EntityType>
+  <Association Name="fk_modelos">
+    <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+    <End Role="modelos" Type="Self.modelos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marca">
+        <PropertyRef Name="id_marca" />
+      </Principal>
+      <Dependent Role="modelos">
+        <PropertyRef Name="id_marca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_repuestos">
+    <End Role="modelos" Type="Self.modelos" Multiplicity="0..1" />
+    <End Role="repuestos" Type="Self.repuestos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modelos">
+        <PropertyRef Name="id_modelos" />
+      </Principal>
+      <Dependent Role="repuestos">
+        <PropertyRef Name="id_modelos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="autosModelStoreContainer">
+    <EntitySet Name="marca" EntityType="Self.marca" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="modelos" EntityType="Self.modelos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="repuestos" EntityType="Self.repuestos" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_modelos" Association="Self.fk_modelos">
+      <End Role="marca" EntitySet="marca" />
+      <End Role="modelos" EntitySet="modelos" />
+    </AssociationSet>
+    <AssociationSet Name="fk_repuestos" Association="Self.fk_repuestos">
+      <End Role="modelos" EntitySet="modelos" />
+      <End Role="repuestos" EntitySet="repuestos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

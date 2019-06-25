@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DataAnotations_PartialViews.Models.marca>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.marca1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pais)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.imagen)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.marca1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.imagen)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_marca }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_marca }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_marca })
+        </td>
+    </tr>
+}
+
+</table>

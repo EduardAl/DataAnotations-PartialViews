@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="autosModelStoreContainer" CdmEntityContainer="autosEntities">
+    <EntitySetMapping Name="marcas">
+      <EntityTypeMapping TypeName="autosModel.marca">
+        <MappingFragment StoreEntitySet="marca">
+          <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+          <ScalarProperty Name="marca1" ColumnName="marca" />
+          <ScalarProperty Name="pais" ColumnName="pais" />
+          <ScalarProperty Name="imagen" ColumnName="imagen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modelos">
+      <EntityTypeMapping TypeName="autosModel.modelo">
+        <MappingFragment StoreEntitySet="modelos">
+          <ScalarProperty Name="id_modelos" ColumnName="id_modelos" />
+          <ScalarProperty Name="modelo1" ColumnName="modelo" />
+          <ScalarProperty Name="asientos" ColumnName="asientos" />
+          <ScalarProperty Name="combustible" ColumnName="combustible" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
+          <ScalarProperty Name="year_modelo" ColumnName="year_modelo" />
+          <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="repuestos">
+      <EntityTypeMapping TypeName="autosModel.repuesto">
+        <MappingFragment StoreEntitySet="repuestos">
+          <ScalarProperty Name="id_rep" ColumnName="id_rep" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
+          <ScalarProperty Name="descuento" ColumnName="descuento" />
+          <ScalarProperty Name="id_modelos" ColumnName="id_modelos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

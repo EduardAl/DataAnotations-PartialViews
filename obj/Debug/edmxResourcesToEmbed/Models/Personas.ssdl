@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="scrumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="pais">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="personas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="200" />
+    <Property Name="apellido" Type="varchar" MaxLength="200" />
+    <Property Name="direccion" Type="varchar" MaxLength="255" />
+    <Property Name="telefono" Type="varchar" MaxLength="13" />
+    <Property Name="sueldo" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="sexo" Type="char" MaxLength="1" />
+    <Property Name="pais_id" Type="int" />
+    <Property Name="rol_id" Type="int" />
+    <Property Name="id_roles" Type="int" />
+    <Property Name="id_paises" Type="int" />
+  </EntityType>
+  <EntityType Name="rols">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_dbo_personas_dbo_pais_pais_id">
+    <End Role="pais" Type="Self.pais" Multiplicity="0..1" />
+    <End Role="personas" Type="Self.personas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pais">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="personas">
+        <PropertyRef Name="pais_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_personas_dbo_rols_rol_id">
+    <End Role="rols" Type="Self.rols" Multiplicity="0..1" />
+    <End Role="personas" Type="Self.personas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rols">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="personas">
+        <PropertyRef Name="rol_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="scrumModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="pais" EntityType="Self.pais" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="personas" EntityType="Self.personas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rols" EntityType="Self.rols" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_personas_dbo_pais_pais_id" Association="Self.FK_dbo_personas_dbo_pais_pais_id">
+      <End Role="pais" EntitySet="pais" />
+      <End Role="personas" EntitySet="personas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_personas_dbo_rols_rol_id" Association="Self.FK_dbo_personas_dbo_rols_rol_id">
+      <End Role="rols" EntitySet="rols" />
+      <End Role="personas" EntitySet="personas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

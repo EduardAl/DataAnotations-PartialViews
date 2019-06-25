@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="autosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="marca">
+    <Key>
+      <PropertyRef Name="id_marca" />
+    </Key>
+    <Property Name="id_marca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="marca1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="pais" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="modelos" Relationship="Self.fk_modelos" FromRole="marca" ToRole="modelos" />
+  </EntityType>
+  <EntityType Name="modelo">
+    <Key>
+      <PropertyRef Name="id_modelos" />
+    </Key>
+    <Property Name="id_modelos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelo1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="asientos" Type="Int32" />
+    <Property Name="combustible" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="precio" Type="Decimal" Precision="10" Scale="4" />
+    <Property Name="year_modelo" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="id_marca" Type="Int32" />
+    <NavigationProperty Name="marca" Relationship="Self.fk_modelos" FromRole="modelos" ToRole="marca" />
+    <NavigationProperty Name="repuestos" Relationship="Self.fk_repuestos" FromRole="modelos" ToRole="repuestos" />
+  </EntityType>
+  <EntityType Name="repuesto">
+    <Key>
+      <PropertyRef Name="id_rep" />
+    </Key>
+    <Property Name="id_rep" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="precio" Type="Decimal" Precision="10" Scale="4" />
+    <Property Name="descuento" Type="Int32" />
+    <Property Name="id_modelos" Type="Int32" />
+    <NavigationProperty Name="modelo" Relationship="Self.fk_repuestos" FromRole="repuestos" ToRole="modelos" />
+  </EntityType>
+  <Association Name="fk_modelos">
+    <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+    <End Role="modelos" Type="Self.modelo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marca">
+        <PropertyRef Name="id_marca" />
+      </Principal>
+      <Dependent Role="modelos">
+        <PropertyRef Name="id_marca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_repuestos">
+    <End Role="modelos" Type="Self.modelo" Multiplicity="0..1" />
+    <End Role="repuestos" Type="Self.repuesto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modelos">
+        <PropertyRef Name="id_modelos" />
+      </Principal>
+      <Dependent Role="repuestos">
+        <PropertyRef Name="id_modelos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="autosEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="marcas" EntityType="Self.marca" />
+    <EntitySet Name="modelos" EntityType="Self.modelo" />
+    <EntitySet Name="repuestos" EntityType="Self.repuesto" />
+    <AssociationSet Name="fk_modelos" Association="Self.fk_modelos">
+      <End Role="marca" EntitySet="marcas" />
+      <End Role="modelos" EntitySet="modelos" />
+    </AssociationSet>
+    <AssociationSet Name="fk_repuestos" Association="Self.fk_repuestos">
+      <End Role="modelos" EntitySet="modelos" />
+      <End Role="repuestos" EntitySet="repuestos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

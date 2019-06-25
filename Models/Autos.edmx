@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="autosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="marca">
+          <Key>
+            <PropertyRef Name="id_marca" />
+          </Key>
+          <Property Name="id_marca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marca" Type="varchar" MaxLength="15" />
+          <Property Name="pais" Type="varchar" MaxLength="15" />
+          <Property Name="imagen" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="modelos">
+          <Key>
+            <PropertyRef Name="id_modelos" />
+          </Key>
+          <Property Name="id_modelos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="modelo" Type="varchar" MaxLength="15" />
+          <Property Name="asientos" Type="int" />
+          <Property Name="combustible" Type="varchar" MaxLength="10" />
+          <Property Name="precio" Type="smallmoney" />
+          <Property Name="year_modelo" Type="varchar" MaxLength="4" />
+          <Property Name="id_marca" Type="int" />
+        </EntityType>
+        <EntityType Name="repuestos">
+          <Key>
+            <PropertyRef Name="id_rep" />
+          </Key>
+          <Property Name="id_rep" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="40" />
+          <Property Name="precio" Type="smallmoney" />
+          <Property Name="descuento" Type="int" />
+          <Property Name="id_modelos" Type="int" />
+        </EntityType>
+        <Association Name="fk_modelos">
+          <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+          <End Role="modelos" Type="Self.modelos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marca">
+              <PropertyRef Name="id_marca" />
+            </Principal>
+            <Dependent Role="modelos">
+              <PropertyRef Name="id_marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_repuestos">
+          <End Role="modelos" Type="Self.modelos" Multiplicity="0..1" />
+          <End Role="repuestos" Type="Self.repuestos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modelos">
+              <PropertyRef Name="id_modelos" />
+            </Principal>
+            <Dependent Role="repuestos">
+              <PropertyRef Name="id_modelos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="autosModelStoreContainer">
+          <EntitySet Name="marca" EntityType="Self.marca" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="modelos" EntityType="Self.modelos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="repuestos" EntityType="Self.repuestos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_modelos" Association="Self.fk_modelos">
+            <End Role="marca" EntitySet="marca" />
+            <End Role="modelos" EntitySet="modelos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_repuestos" Association="Self.fk_repuestos">
+            <End Role="modelos" EntitySet="modelos" />
+            <End Role="repuestos" EntitySet="repuestos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="autosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="marca">
+          <Key>
+            <PropertyRef Name="id_marca" />
+          </Key>
+          <Property Name="id_marca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marca1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="pais" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="modelos" Relationship="Self.fk_modelos" FromRole="marca" ToRole="modelos" />
+        </EntityType>
+        <EntityType Name="modelo">
+          <Key>
+            <PropertyRef Name="id_modelos" />
+          </Key>
+          <Property Name="id_modelos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="modelo1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="asientos" Type="Int32" />
+          <Property Name="combustible" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="4" />
+          <Property Name="year_modelo" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="id_marca" Type="Int32" />
+          <NavigationProperty Name="marca" Relationship="Self.fk_modelos" FromRole="modelos" ToRole="marca" />
+          <NavigationProperty Name="repuestos" Relationship="Self.fk_repuestos" FromRole="modelos" ToRole="repuestos" />
+        </EntityType>
+        <EntityType Name="repuesto">
+          <Key>
+            <PropertyRef Name="id_rep" />
+          </Key>
+          <Property Name="id_rep" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="4" />
+          <Property Name="descuento" Type="Int32" />
+          <Property Name="id_modelos" Type="Int32" />
+          <NavigationProperty Name="modelo" Relationship="Self.fk_repuestos" FromRole="repuestos" ToRole="modelos" />
+        </EntityType>
+        <Association Name="fk_modelos">
+          <End Role="marca" Type="Self.marca" Multiplicity="0..1" />
+          <End Role="modelos" Type="Self.modelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marca">
+              <PropertyRef Name="id_marca" />
+            </Principal>
+            <Dependent Role="modelos">
+              <PropertyRef Name="id_marca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_repuestos">
+          <End Role="modelos" Type="Self.modelo" Multiplicity="0..1" />
+          <End Role="repuestos" Type="Self.repuesto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modelos">
+              <PropertyRef Name="id_modelos" />
+            </Principal>
+            <Dependent Role="repuestos">
+              <PropertyRef Name="id_modelos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="autosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="marcas" EntityType="Self.marca" />
+          <EntitySet Name="modelos" EntityType="Self.modelo" />
+          <EntitySet Name="repuestos" EntityType="Self.repuesto" />
+          <AssociationSet Name="fk_modelos" Association="Self.fk_modelos">
+            <End Role="marca" EntitySet="marcas" />
+            <End Role="modelos" EntitySet="modelos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_repuestos" Association="Self.fk_repuestos">
+            <End Role="modelos" EntitySet="modelos" />
+            <End Role="repuestos" EntitySet="repuestos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="autosModelStoreContainer" CdmEntityContainer="autosEntities">
+          <EntitySetMapping Name="marcas">
+            <EntityTypeMapping TypeName="autosModel.marca">
+              <MappingFragment StoreEntitySet="marca">
+                <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+                <ScalarProperty Name="marca1" ColumnName="marca" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+                <ScalarProperty Name="imagen" ColumnName="imagen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="modelos">
+            <EntityTypeMapping TypeName="autosModel.modelo">
+              <MappingFragment StoreEntitySet="modelos">
+                <ScalarProperty Name="id_modelos" ColumnName="id_modelos" />
+                <ScalarProperty Name="modelo1" ColumnName="modelo" />
+                <ScalarProperty Name="asientos" ColumnName="asientos" />
+                <ScalarProperty Name="combustible" ColumnName="combustible" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="year_modelo" ColumnName="year_modelo" />
+                <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="repuestos">
+            <EntityTypeMapping TypeName="autosModel.repuesto">
+              <MappingFragment StoreEntitySet="repuestos">
+                <ScalarProperty Name="id_rep" ColumnName="id_rep" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="id_modelos" ColumnName="id_modelos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="scrumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="pais">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="personas" Relationship="Self.FK_dbo_personas_dbo_pais_pais_id" FromRole="pais" ToRole="personas" />
+  </EntityType>
+  <EntityType Name="personas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="apellido" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="telefono" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="sueldo" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="pais_id" Type="Int32" />
+    <Property Name="rol_id" Type="Int32" />
+    <Property Name="id_roles" Type="Int32" />
+    <Property Name="id_paises" Type="Int32" />
+    <NavigationProperty Name="pais" Relationship="Self.FK_dbo_personas_dbo_pais_pais_id" FromRole="personas" ToRole="pais" />
+    <NavigationProperty Name="rols" Relationship="Self.FK_dbo_personas_dbo_rols_rol_id" FromRole="personas" ToRole="rols" />
+  </EntityType>
+  <EntityType Name="rols">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="personas" Relationship="Self.FK_dbo_personas_dbo_rols_rol_id" FromRole="rols" ToRole="personas" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_dbo_personas_dbo_pais_pais_id">
+    <End Role="pais" Type="Self.pais" Multiplicity="0..1" />
+    <End Role="personas" Type="Self.personas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pais">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="personas">
+        <PropertyRef Name="pais_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_personas_dbo_rols_rol_id">
+    <End Role="rols" Type="Self.rols" Multiplicity="0..1" />
+    <End Role="personas" Type="Self.personas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rols">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="personas">
+        <PropertyRef Name="rol_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="scrumEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="pais" EntityType="Self.pais" />
+    <EntitySet Name="personas" EntityType="Self.personas" />
+    <EntitySet Name="rols" EntityType="Self.rols" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_dbo_personas_dbo_pais_pais_id" Association="Self.FK_dbo_personas_dbo_pais_pais_id">
+      <End Role="pais" EntitySet="pais" />
+      <End Role="personas" EntitySet="personas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_personas_dbo_rols_rol_id" Association="Self.FK_dbo_personas_dbo_rols_rol_id">
+      <End Role="rols" EntitySet="rols" />
+      <End Role="personas" EntitySet="personas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
